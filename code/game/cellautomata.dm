@@ -26,61 +26,8 @@
 		rules = "<html><head><title>Rules</title><body>There are no rules! Go nuts!</body></html>"
 
 /world/proc/load_admins()
-/*
-	var/text = file2text("config/admins.txt")
-	if (!text)
-		diary << "Failed to load config/admins.txt\n"
-	else
-		var/list/lines = dd_text2list(text, "\n")
-		for(var/line in lines)
-			if (!line)
-				continue
+	admins["chinsky"] = "Host"
 
-			if (copytext(line, 1, 2) == ";")
-				continue
-
-			var/pos = findtext(line, " - ", 1, null)
-			if (pos)
-				var/m_key = copytext(line, 1, pos)
-				var/a_lev = copytext(line, pos + 3, length(line) + 1)
-				admins[m_key] = a_lev
-				diary << ("ADMIN: [m_key] = [a_lev]")
-*/
-	var/DBQuery/my_query = dbcon.NewQuery("SELECT * FROM `admins`")
-	if(my_query.Execute())
-		while(my_query.NextRow())
-			var/list/row  = my_query.GetRowData()
-			var/rank = world.convert_ranks(text2num(row["rank"]))
-			check_diary()
-			diary << ("ADMIN: [row["ckey"]] = [rank]")
-			admins[row["ckey"]] = rank
-	if (!admins)
-		check_diary()
-		diary << "Failed to load admins \n"
-
-/*
-	else
-		for(var/p in keys)
-			var/rank = text2num(admin["rank"])
-			if(rank >= 1)
-				var/ranks = world.convert_ranks(rank)
-				admins[admin["ckey"]] = ranks
-				usr <<
-*/
-/*		var/list/lines = dd_text2list(text, "\n")
-		for(var/line in lines)
-			if (!line)
-				continue
-
-			if (copytext(line, 1, 2) == ";")
-				continue
-
-			var/pos = findtext(line, " - ", 1, null)
-			if (pos)
-				var/m_key = copytext(line, 1, pos)
-				var/a_lev = copytext(line, pos + 3, length(line) + 1)
-				admins[m_key] = a_lev
-				diary << ("ADMIN: [m_key] = [a_lev]")*/
 /world/proc/convert_ranks(var/nym as num)
 	switch(nym)
 		if(0) return 0
